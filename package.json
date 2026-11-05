@@ -2,9 +2,15 @@
   "name": "xvideo-download",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format esm,cjs --clean --target node18 && tsc src/index.ts --declaration --emitDeclarationOnly --outDir dist --skipLibCheck --module esnext --moduleResolution bundler --target es2022 --strict"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +23,26 @@
     }
   },
   "packageManager": "pnpm@12.16.1",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
 }
